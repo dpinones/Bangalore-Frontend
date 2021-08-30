@@ -1,0 +1,40 @@
+<button (click)="connectToMetamask()" id="btnEnableMetamask">
+  Enable metamask
+</button>
+
+<br />
+<hr />
+<button (click)="getAccount()" id="account">Get Accounts</button>
+<div id="accountdiv">
+  Connected wallet address :
+  {{ MyAccount }}
+</div>
+
+<br />
+<hr />
+<button (click)="getChainId()" id="chainid">Get Chain Id</button>
+<div id="chaindiv">
+  Connected chain id :
+  {{ ChainId }}
+</div>
+<br />
+<hr />
+<button (click)="getBnbBalance()" id="balance">Get BNB Balance</button>
+<div id="balancediv">
+  BNB Balance :
+  {{ Balance }}
+</div>
+
+<br />
+<hr />
+<input type="text" [(ngModel)]="addressReceiver" placeholder="address">
+<input type="text" [(ngModel)]="valueEther" placeholder="value">
+<button (click)="sendEther()">  Send ETHER</button>
+
+<br />
+<hr />
+<button (click)="getHolaMundo()"> Haz click</button>
+<div>
+  {{ holaMundo }}
+</div>
+<router-outlet></router-outlet>
