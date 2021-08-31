@@ -59,19 +59,17 @@ export class AccountComponent {
   async sendEther() {
     console.log('valueEther = ', this.valueEther);
     console.log('address = ', this.addressReceiver);
-    this.holaMundo = await this.blockchainService.sendEther(
+/*     this.holaMundo = await this.blockchainService.sendEther(
       this.MyAccount,
       this.addressReceiver,
       this.valueEther,
       contractAddresses.getPaymentAddress()
-    );
+    ); */
 
     // this.toWei(this.valueEther),
   }
 
   async getHolaMundo() {
-    this.holaMundo = await this.blockchainService.getHolaMundo(
-      contractAddresses.getPaymentAddress()
-    );
+
   }
 }

@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from "./app-material.module";
 import { AccountComponent } from './ui/account/account.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
+import { PoolComponent } from './ui/pool/pool.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AccountComponent
+    AccountComponent,
+    PoolComponent
   ],
   imports: [
     BrowserModule,

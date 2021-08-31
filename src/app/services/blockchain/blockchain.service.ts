@@ -1,12 +1,8 @@
-import {
-  Injectable,
-  ɵCompiler_compileModuleSync__POST_R3__,
-} from '@angular/core';
-import { Contract, ethers, BigNumber } from 'ethers';
+import { Injectable } from '@angular/core';
+import { BigNumber, Contract, ethers} from 'ethers';
 import * as abis from './../../../utils/getAbis';
-// import * as artfinabi from './../../../constants/abis/artfin.json';
-const artfinabi = require('./../../../constants/abis/artfin.json');
-import { getContractAddress } from 'ethers/lib/utils';
+import * as contractAddresses from './../../../utils/getContractAddress';
+
 
 declare let window: any;
 
@@ -18,7 +14,21 @@ export class BlockchainService {
   private signer: any;
   private enable: any;
   private accounts: any;
-  constructor() {}
+  private bangaloreAddress: string;
+
+  constructor() {
+    this.bangaloreAddress = contractAddresses.getBangaloreAddress();
+  }
+
+  async userConnected(){
+    try {
+      var provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
   async connectToMetamask() {
     if (window.ethereum === undefined) {
@@ -60,39 +70,153 @@ export class BlockchainService {
       method: 'eth_getBalance',
       params: [address, 'latest'],
     });
-    return balance;
+    let balanceStr: string = balance.toString(); 
+    let ret = ethers.utils.formatEther(balanceStr);
+    return ret;
   }
 
-  async sendEther(sender: string, receiver: string, amount: string, payment: string) {
+  ///////////////////
 
-    let paymentContract: Contract;
+  async stake(amount: number){
+    let bangaloreContract: Contract;
     var provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    paymentContract = new ethers.Contract(
-      payment,
-      abis.getAbiForPayment(),
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
       signer
     );
-    paymentContract.connect(signer);
-    // Acccounts now exposed
-    const params = { value: ethers.utils.parseEther(amount) };
-    console.log('ethers.utils.parseEther(amount):', ethers.utils.parseEther(amount))
-    await paymentContract.nuevaTransaccion(receiver, params);
+    bangaloreContract.connect(signer);
+    await bangaloreContract.stake({ value: ethers.utils.parseEther(String(amount)) });
+
   }
 
-  async getHolaMundo(payment: string) {
-    let paymentContract: Contract;
+  async compound(){
+    let bangaloreContract: Contract;
     var provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    paymentContract = new ethers.Contract(
-      payment,
-      abis.getAbiForPayment(),
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
       signer
     );
-    paymentContract.connect(signer);
-    let holaMundo: string;
-    holaMundo = await paymentContract.holaMundo();
-    console.log('holaMundo = ', holaMundo);
-    return holaMundo;
+    bangaloreContract.connect(signer);
+    await bangaloreContract.compound();
   }
+
+  async harvest(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    await bangaloreContract.harvest();
+  }
+
+  async addDeposit(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    await bangaloreContract.addDeposit();
+  }
+
+  async getBalance(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    console.log('bangaloreContract:', bangaloreContract);
+    const balance = await bangaloreContract.getBalance();
+    let balanceStr: string = balance.toString(); 
+    let ret = ethers.utils.formatEther(balanceStr);
+    return ret;
+  }
+
+  async totalPool(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    const totalPool = await bangaloreContract.totalPool();
+    let totalPoolStr: string = totalPool.toString(); 
+    let ret = ethers.utils.formatEther(totalPoolStr);
+    return ret;
+  }
+
+  async getReward(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    const reward = await bangaloreContract.getReward();
+    let rewardStr: string = reward.toString(); 
+    let ret = ethers.utils.formatEther(rewardStr);
+    return ret;
+  }
+
+  async getNumberOfStakers(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    const ret = await bangaloreContract.getNumberOfStakers();
+    return ret;
+  }
+
+  async addUserToTeam(address: string){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    await bangaloreContract.addUserToTeam(address)
+  }
+  
+  async removeUserToTeam(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    await bangaloreContract.removeUserToTeam();
+  }
+
 }
