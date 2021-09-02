@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { BigNumber } from 'ethers';
-import { VirtualTimeScheduler } from 'rxjs';
 import { BlockchainService } from 'src/app/services/blockchain/blockchain.service';
 import { User } from '../model/user.model';
 import { Record } from '../model/record.model';
+import {MatDialog} from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
+import { RewardModalComponent } from '../reward-modal/reward-modal.component';
 
 @Component({
   selector: 'app-pool',
@@ -27,7 +28,7 @@ export class PoolComponent implements OnInit {
 
   connect: boolean = false;
   
-  constructor(private blockchainService: BlockchainService) { }
+  constructor(public dialog: MatDialog, private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
     this.userConnect();
@@ -35,23 +36,19 @@ export class PoolComponent implements OnInit {
   }
 
   async init(){
-    this.getTotalPool();
-    this.getNumberOfStakers();
-    this.getTicketsForStaker();
-    this.getNumberOfTickets();
-    this.getReward();
+    this.totalPool = await this.blockchainService.totalPool();
+    this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
+    this.myTickets = await this.blockchainService.getTicketsForStaker();
+    this.totalTickets = await this.blockchainService.getNumberOfTickets();
+    this.reward = await this.blockchainService.getReward();  
+    this.ticketValue = await this.blockchainService.ticketValue();
     this.getUsers();
-    this.getTicketValue();
     this.getRecords();
   }
 
   async stake() {
     await this.blockchainService.stake(this.cantidadTicketComprar, this.cantidadTicketComprar * Number(this.ticketValue));
     this.init();
-  }
-
-  async compound() {
-
   }
 
   async harvest(){
@@ -81,30 +78,6 @@ export class PoolComponent implements OnInit {
     }
   }
 
-  async getTotalPool(){
-    this.totalPool = await this.blockchainService.totalPool();
-  }
-
-  async getNumberOfStakers(){
-    this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
-  }
-
-  async getTicketsForStaker(){
-    this.myTickets = await this.blockchainService.getTicketsForStaker();
-  }
-
-  async getNumberOfTickets(){
-    this.totalTickets = await this.blockchainService.getNumberOfTickets();
-  }
-
-  async getReward(){
-    this.reward = await this.blockchainService.getReward();
-  }
-  
-  async getTicketValue(){
-    this.ticketValue = await this.blockchainService.ticketValue();
-  }
-  
   async lookingForAWinner(){
     await this.blockchainService.lookingForAWinner();
   }
@@ -136,5 +109,28 @@ export class PoolComponent implements OnInit {
     account = await this.blockchainService.getAccount();
     this.addressCurrentUser = account[0];
     this.balanceBnb = await this.blockchainService.getBnbBalance(this.addressCurrentUser);
+  }
+
+  buyTickets(){
+    const dialogRef = this.dialog.open(ModalComponent, {
+      height: '400px',
+      width: '600px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  reclaimRewards(){
+    const dialogRef = this.dialog.open(RewardModalComponent, {
+      width: '250px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }
