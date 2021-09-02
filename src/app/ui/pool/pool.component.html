@@ -1,77 +1,81 @@
-<button mat-raised-button (click)="lookingForAWinner()">lookingForAWinner</button>
-<button mat-raised-button (click)="reset()">reset</button>
-<section class="main color-total-pool">
-  <div class="wrapper">
-    <div class="col">
-      <div class="post">
-        <h2>The Lottery</h2>
-        <div>
-          <span>{{totalPool}} ETHER</span>
-        </div>
-        <h2>in prizes!</h2>
-        <div class="ticket-form">
-          <button class="buy-ticket" (click)="buyTickets()">Buy Tickets</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="owner" *ngIf="owner">
+  <button class="buy-ticket" (click)="lookingForAWinner()">The winner is</button>
+  <button class="buy-ticket"(click)="reset()">Reset</button>
+</div>
 
-<section class="main color-tickets">
-  <div class="wrapper">
-    <div class="col">
-      <div class="post">
-        <h2 class="get-ticket">Get your tickets now!</h2>
-        <div class="card-next-draw">
-          <h2>Next Draw</h2>
-          <div class="col">
-            <h2>Prize pot</h2>
-            <h1>{{totalPool}} ETHER</h1>
+<div *ngIf="!owner">
+  <section class="main color-total-pool">
+    <div class="wrapper">
+      <div class="col">
+        <div class="post">
+          <h2>The Lottery</h2>
+          <div>
+            <span>{{totalPool}} ETHER</span>
           </div>
+          <h2>in prizes!</h2>
           <div>
             <button class="buy-ticket" (click)="buyTickets()">Buy Tickets</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="main color-winner">
-  <div class="wrapper">
-    <div class="col">
-      <div class="post">
-        <div>
-          <button class="reward" (click)="reclaimRewards()">Reward</button>
+  </section>
+  
+  <section class="main color-tickets">
+    <div class="wrapper">
+      <div class="col">
+        <div class="post">
+          <h2 class="get-ticket">Get your tickets now!</h2>
+          <div class="card-next-draw">
+            <h2>Next Draw</h2>
+            <div class="col">
+              <h2>Prize pot</h2>
+              <h1>{{totalPool}} ETHER</h1>
+            </div>
+            <div>
+              <button class="buy-ticket" (click)="buyTickets()">Buy Tickets</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<section class="main color-historical">
-  <div class="wrapper">
-    <div class="col">
-      <div class="post">
-        <div class="card-next-draw">
-          <table class="blueTable">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>User</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr my-active *ngFor="let record of records; index as rowIndex">
-                <td>{{record.id}}</td>
-                <td>{{record.user}}</td>
-                <td>{{record.amount}}</td>
-              </tr>
-            </tbody>
-          </table>
+  </section>
+  
+  <section class="main color-winner">
+    <div class="wrapper">
+      <div class="col">
+        <div class="post">
+          <div>
+            <button class="reward" (click)="reclaimRewards()">Reward</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
+  </section>
+  <section class="main color-historical">
+    <div class="wrapper">
+      <div class="col">
+        <div class="post">
+          <div class="card-next-draw">
+            <table class="blueTable">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr my-active *ngFor="let record of records; index as rowIndex">
+                  <td>{{record.id}}</td>
+                  <td>{{record.user}}</td>
+                  <td>{{record.amount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

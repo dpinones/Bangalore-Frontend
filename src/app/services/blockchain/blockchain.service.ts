@@ -58,12 +58,11 @@ export class BlockchainService {
 
   async getChainId() {
     let chainId: number;
-    console.log('window.ethereum = ', window.ethereum);
     chainId = parseInt(window.ethereum.chainId);
     return chainId;
   }
 
-  async getBnbBalance(address: string) {
+  async getBalance(address: string) {
     let balance: string;
     balance = await window.ethereum.request({
       method: 'eth_getBalance',
@@ -77,8 +76,6 @@ export class BlockchainService {
   ///////////////////
 
   async stake(amount: number, value: number){
-    console.log('value:', value);
-    console.log('amount:', amount);
     let bangaloreContract: Contract;
     var provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -248,7 +245,6 @@ export class BlockchainService {
     );
     bangaloreContract.connect(signer);
     let ret: any = await bangaloreContract.records(index);
-    console.log('ret:', ret);
     const amount: BigNumber = ret.amount; 
     let amountStr: string = amount.toString(); 
     ret =  {date: ret.date, user: ret.user, amount: ethers.utils.formatEther(amountStr)};
@@ -279,7 +275,11 @@ export class BlockchainService {
       signer
     );
     bangaloreContract.connect(signer);
-    await bangaloreContract.lookingForAWinner();
+    try {
+      await bangaloreContract.lookingForAWinner();
+    }catch(error){
+      console.log('error:', error);
+    }
   }
   
   async reset(){
@@ -293,5 +293,18 @@ export class BlockchainService {
     );
     bangaloreContract.connect(signer);
     await bangaloreContract.reset();
+  }
+
+  async owner(){
+    let bangaloreContract: Contract;
+    var provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    bangaloreContract = new ethers.Contract(
+      this.bangaloreAddress,
+      abis.getAbiForBangalore(),
+      signer
+    );
+    bangaloreContract.connect(signer);
+    return await bangaloreContract.owner();
   }
 }

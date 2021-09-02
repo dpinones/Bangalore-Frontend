@@ -11,20 +11,21 @@ import { RewardModalComponent } from '../reward-modal/reward-modal.component';
   templateUrl: './pool.component.html',
   styleUrls: ['./pool.component.css']
 })
-export class PoolComponent implements OnInit {
+export class PoolComponent implements OnInit{
 
-  balanceBnb!: string;
+  balance!: string;
   totalPool!: string;
   numberOfStakers!: string;
   myTickets!: string;
   totalTickets!: string;
   reward!: string;
   ticketValue!: string;
-  addressCurrentUser!: string;
+  user!: string;
   users!: User[];
   records!: Record[];
 
   connect: boolean = false;
+  owner: boolean = false;
   
   constructor(public dialog: MatDialog, private blockchainService: BlockchainService) { }
 
@@ -33,15 +34,36 @@ export class PoolComponent implements OnInit {
     this.init();
   }
 
+  async currectAccount(){
+    let account: string[] = await this.blockchainService.getAccount();
+    return account[0];
+  }
+
+  async isOwner(){
+    let owner: string = await this.blockchainService.owner();
+    if(this.user.toLowerCase() === owner.toLowerCase()){
+      this.owner = true;
+    }
+  }
+
   async init(){
-    this.totalPool = await this.blockchainService.totalPool();
-    this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
-    this.myTickets = await this.blockchainService.getTicketsForStaker();
-    this.totalTickets = await this.blockchainService.getNumberOfTickets();
-    this.reward = await this.blockchainService.getReward();  
-    this.ticketValue = await this.blockchainService.ticketValue();
-    this.getUsers();
-    this.getRecords();
+    
+    this.user = await this.currectAccount();
+    await this.isOwner();
+    
+    if(this.owner){
+      alert("Is Owner");
+    }else{
+      this.balance = await this.blockchainService.getBalance(this.user);
+      this.totalPool = await this.blockchainService.totalPool();
+      this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
+      this.myTickets = await this.blockchainService.getTicketsForStaker();
+      this.totalTickets = await this.blockchainService.getNumberOfTickets();
+      this.reward = await this.blockchainService.getReward();  
+      this.ticketValue = await this.blockchainService.ticketValue();
+      this.getUsers();
+      this.getRecords();
+    }
   }
 
   async harvest(){
@@ -54,7 +76,7 @@ export class PoolComponent implements OnInit {
     for (let i = 0; i < Number(this.numberOfStakers); i++) {
       const cant = await this.blockchainService.ticketsForStaker(stakers[i]);
       console.log(stakers[i]);
-      console.log('cant:', cant.toNumber());
+      // console.log('cant:', cant.toNumber());
       // this.users.push(new User(stakers[i], cant.toNumber()));
     }
   }
@@ -69,6 +91,8 @@ export class PoolComponent implements OnInit {
     }
   }
 
+
+  // OWNER
   async lookingForAWinner(){
     await this.blockchainService.lookingForAWinner();
   }
@@ -79,10 +103,7 @@ export class PoolComponent implements OnInit {
 
   ////
   async userConnect(){
-    this.connect = await this.blockchainService.userConnected();
-    if(this.connect) {
-      this.getAccount();
-    }
+    return await this.blockchainService.userConnected();
   }
 
   async connectToMetamask() {
@@ -94,13 +115,6 @@ export class PoolComponent implements OnInit {
     alert("Disconnect To Metamask");
     // await this.blockchainService.disconnectedToMetamask();
   }  
-
-  async getAccount() {
-    let account: string[];
-    account = await this.blockchainService.getAccount();
-    this.addressCurrentUser = account[0];
-    this.balanceBnb = await this.blockchainService.getBnbBalance(this.addressCurrentUser);
-  }
 
   buyTickets(){
     const dialogRef = this.dialog.open(ModalComponent, {

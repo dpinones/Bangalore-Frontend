@@ -50,15 +50,11 @@ export class AccountComponent {
     let account: string[];
     account = await this.blockchainService.getAccount();
     this.MyAccount = account[0];
-    balance = await this.blockchainService.getBnbBalance(this.MyAccount);
-    console.log('balance:', balance);
-    console.log('parseInt(balance):', parseInt(balance));
+    balance = await this.blockchainService.getBalance(this.MyAccount);
     this.Balance = this.toEth(parseInt(balance));
   }
 
   async sendEther() {
-    console.log('valueEther = ', this.valueEther);
-    console.log('address = ', this.addressReceiver);
 /*     this.holaMundo = await this.blockchainService.sendEther(
       this.MyAccount,
       this.addressReceiver,
