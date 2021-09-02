@@ -5,6 +5,7 @@ import { Record } from '../model/record.model';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 import { RewardModalComponent } from '../reward-modal/reward-modal.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-pool',
@@ -27,7 +28,7 @@ export class PoolComponent implements OnInit{
   connect: boolean = false;
   owner: boolean = false;
   
-  constructor(public dialog: MatDialog, private blockchainService: BlockchainService) { }
+  constructor(public dialog: MatDialog, private blockchainService: BlockchainService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.userConnect();
@@ -47,12 +48,12 @@ export class PoolComponent implements OnInit{
   }
 
   async init(){
-    
+    this.spinner.show();
     this.user = await this.currectAccount();
     await this.isOwner();
     
     if(this.owner){
-      alert("Is Owner");
+      console.log("Is Owner");
     }else{
       this.balance = await this.blockchainService.getBalance(this.user);
       this.totalPool = await this.blockchainService.totalPool();
@@ -64,6 +65,7 @@ export class PoolComponent implements OnInit{
       this.getUsers();
       this.getRecords();
     }
+    this.spinner.hide();
   }
 
   async harvest(){
