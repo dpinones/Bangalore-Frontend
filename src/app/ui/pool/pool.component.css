@@ -3,13 +3,75 @@
     padding: 40px 0;
     display: flex;
     justify-content: center;
-    margin-top: 50px;
 }
 
 .wrapper{
-    width: 70%;
+    width: 100%;
     max-width: 1000px;
-    display: grid;
-    grid-template-columns: 60% 40%;
-    grid-gap: 30px;
 }
+
+.col{
+    display: flex;
+    flex-direction: column;
+}
+
+.post {
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 600;
+    line-height: 1.1;
+    width: 100%;
+    height: auto;
+    margin-bottom: 8px;
+}
+
+.post span {
+    font-size: 64px;
+    color: #FECA19;
+}
+
+.color-total-pool {
+    height: 350px;
+    background-color: #4A2C84;
+}
+
+.color-tickets {
+    height: 400px;
+    background-color: #6A3ACD;
+}
+
+.color-winner {
+    height: 140px;
+    background-color: #3A2F56;
+}
+
+
+.color-historical {
+    height: 250px;
+    background-color: #C9D4ED;
+}
+
+.get-ticket {
+    font-size: 40px;
+}
+
+.buy-ticket{
+    height: 50px;
+    width: 350px;
+    color: #FFFFFF;
+    background-color: #3c97ad;
+    border-radius: 10px;
+    border-color: #3A2F56;
+    font-size: 30px;
+}
+
+.reward {
+    height: 50px;
+    width: 350px;
+    color: #FFFFFF;
+    background-color: #bb9901;
+    border-radius: 10px;
+    border-color: #3A2F56;
+    font-size: 30px;
+}
+

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { BigNumber } from 'ethers';
 import { VirtualTimeScheduler } from 'rxjs';
 import { BlockchainService } from 'src/app/services/blockchain/blockchain.service';
+import { User } from '../model/user.model';
+import { Record } from '../model/record.model';
 
 @Component({
   selector: 'app-pool',
@@ -10,52 +13,104 @@ import { BlockchainService } from 'src/app/services/blockchain/blockchain.servic
 export class PoolComponent implements OnInit {
 
   balanceBnb!: string;
-  addressCurrentUser!: string;
-  balance!: string;
   totalPool!: string;
-  reward!:string;
   numberOfStakers!: string;
+  myTickets!: string;
+  totalTickets!: string;
+  reward!: string;
+  ticketValue!: string;
+  addressCurrentUser!: string;
+  cantidadTicketComprar!: number;
 
-  ///
+  users!: User[];
+  records!: Record[];
+
   connect: boolean = false;
-  //
   
   constructor(private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
     this.userConnect();
-    this.getBalance();
+    this.init();
+  }
+
+  async init(){
     this.getTotalPool();
-    this.getReward();
     this.getNumberOfStakers();
+    this.getTicketsForStaker();
+    this.getNumberOfTickets();
+    this.getReward();
+    this.getUsers();
+    this.getTicketValue();
+    this.getRecords();
   }
 
-  stake() {
+  async stake() {
+    await this.blockchainService.stake(this.cantidadTicketComprar, this.cantidadTicketComprar * Number(this.ticketValue));
+    this.init();
+  }
+
+  async compound() {
 
   }
 
-  compound() {
-
+  async harvest(){
+    
   }
 
-  harvest(){
-
+  async getUsers(){
+    this.users = new Array<User>();
+    const stakers = await this.blockchainService.getStakers();
+    for (let i = 0; i < Number(this.numberOfStakers); i++) {
+      const cant = await this.blockchainService.ticketsForStaker(stakers[i]);
+      console.log(stakers[i]);
+      console.log('cant:', cant.toNumber());
+      // this.users.push(new User(stakers[i], cant.toNumber()));
+    }
   }
 
-  async getBalance(){
-    this.balance = await this.blockchainService.getBalance();
+  async getRecords(){
+    this.records = new Array<Record>();
+    const numberOfRecord = await this.blockchainService.getNumberOfRecord();
+    for (let i = 0; i < numberOfRecord; i++) {
+      let record: Record = await this.blockchainService.records(String(i));
+      console.log('record.date:', record.date);
+      record.date = new Date(record.date);
+      console.log('record.date:', record.date);
+      this.records.push(record);
+    }
   }
-  
+
   async getTotalPool(){
     this.totalPool = await this.blockchainService.totalPool();
+  }
+
+  async getNumberOfStakers(){
+    this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
+  }
+
+  async getTicketsForStaker(){
+    this.myTickets = await this.blockchainService.getTicketsForStaker();
+  }
+
+  async getNumberOfTickets(){
+    this.totalTickets = await this.blockchainService.getNumberOfTickets();
   }
 
   async getReward(){
     this.reward = await this.blockchainService.getReward();
   }
-
-  async getNumberOfStakers(){
-    this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
+  
+  async getTicketValue(){
+    this.ticketValue = await this.blockchainService.ticketValue();
+  }
+  
+  async lookingForAWinner(){
+    await this.blockchainService.lookingForAWinner();
+  }
+  
+  async reset(){
+    await this.blockchainService.reset();
   }
 
   ////

@@ -1,9 +1,83 @@
-<section class="main">
-    <div class="wrapper">
-        <h2>Balance BNB: <strong>{{balanceBnb}}</strong></h2>
-        <h2>Total pool: <strong>{{totalPool}}</strong></h2>
-        <h2>Stake: <strong>{{balance}}</strong></h2>
-        <h2>Reward: <strong>{{reward}}</strong></h2>
-        <h2>Number Of Stakers: <strong>{{numberOfStakers}}</strong></h2>
+<button mat-raised-button (click)="lookingForAWinner()">lookingForAWinner</button>
+<button mat-raised-button (click)="reset()">reset</button>
+<section class="main color-total-pool">
+  <div class="wrapper">
+    <!--         <h2>Balance BNB: <strong>{{balanceBnb}}</strong></h2>
+        
+
+        <h2>Users quantity: <strong>{{numberOfStakers}}</strong></h2>
+
+
+        <input [(ngModel)]="cantidadTicketComprar" type="number">
+        <button mat-raised-button (click)="stake()"> Stake </button> -->
+    <div class="col">
+      <div class="post">
+        <h2>The Lottery</h2>
+        <div>
+          <span>100.0 ETHER</span>
+        </div>
+        <h2>in prizes!</h2>
+        <div class="ticket-form">
+          <button class="buy-ticket">Buy Tickets</button>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
+
+<section class="main color-tickets">
+  <div class="wrapper">
+    <div class="col">
+      <div class="post">
+        <h2 class="get-ticket">Get your tickets now!</h2>
+        <div>
+          <h2>Next Draw</h2>
+          <div class="col">
+            <h2>Prize pot</h2>
+            <h1>100.0 ETHER</h1>
+          </div>
+        </div>
+        <div>
+          <button mat-raised-button>Buy Tickets</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="main color-winner">
+  <div class="wrapper">
+    <div class="col">
+      <div class="post">
+        <div class="ticket-form">
+          <button class="reward">Reward</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="main color-historical">
+  <div class="wrapper">
+    <div class="col">
+      <div class="post">
+        <table class="my-table">
+          <thead class="my-table headers">
+            <tr>
+              <th>User</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody class="my-table body">
+            <tr my-active *ngFor="let record of records; index as rowIndex">
+              <td>{{record.user}}</td>
+              <td>{{record.amount}}</td>
+              <td>{{record.date | date:"dd/MM/yyyy, h:mm a"}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
