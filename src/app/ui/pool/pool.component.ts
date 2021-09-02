@@ -21,8 +21,6 @@ export class PoolComponent implements OnInit {
   reward!: string;
   ticketValue!: string;
   addressCurrentUser!: string;
-  cantidadTicketComprar!: number;
-
   users!: User[];
   records!: Record[];
 
@@ -44,11 +42,6 @@ export class PoolComponent implements OnInit {
     this.ticketValue = await this.blockchainService.ticketValue();
     this.getUsers();
     this.getRecords();
-  }
-
-  async stake() {
-    await this.blockchainService.stake(this.cantidadTicketComprar, this.cantidadTicketComprar * Number(this.ticketValue));
-    this.init();
   }
 
   async harvest(){
@@ -114,8 +107,8 @@ export class PoolComponent implements OnInit {
   buyTickets(){
     const dialogRef = this.dialog.open(ModalComponent, {
       height: '400px',
-      width: '600px',
-      data: {}
+      width: '300px',
+      data: {ticketValue: this.ticketValue}
     });
 
     dialogRef.afterClosed().subscribe(result => {

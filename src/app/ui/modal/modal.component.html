@@ -1,1 +1,11 @@
-<p>modal works!</p>
+<h1 mat-dialog-title>Buy tickets</h1>
+<mat-dialog-content>
+    <h3>Buy:</h3>
+    <h3>Tickets</h3>
+    <input [(ngModel)]="cantidadTicketComprar" type="number">
+    <h3>Cost({{ticketValue}} ETHER)</h3>
+    <h3>Total:</h3>
+    <div>
+        <button class="buy-ticket" (click)="buyNow()">Buy Now!</button>
+    </div>
+</mat-dialog-content>

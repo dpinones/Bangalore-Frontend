@@ -2,19 +2,11 @@
 <button mat-raised-button (click)="reset()">reset</button>
 <section class="main color-total-pool">
   <div class="wrapper">
-    <!--         <h2>Balance BNB: <strong>{{balanceBnb}}</strong></h2>
-        
-
-        <h2>Users quantity: <strong>{{numberOfStakers}}</strong></h2>
-
-
-        <input [(ngModel)]="cantidadTicketComprar" type="number">
-        <button mat-raised-button (click)="stake()"> Stake </button> -->
     <div class="col">
       <div class="post">
         <h2>The Lottery</h2>
         <div>
-          <span>100.0 ETHER</span>
+          <span>{{totalPool}} ETHER</span>
         </div>
         <h2>in prizes!</h2>
         <div class="ticket-form">
@@ -34,9 +26,9 @@
           <h2>Next Draw</h2>
           <div class="col">
             <h2>Prize pot</h2>
-            <h1>100.0 ETHER</h1>
+            <h1>{{totalPool}} ETHER</h1>
           </div>
-          <div class="ticket-form">
+          <div>
             <button class="buy-ticket" (click)="buyTickets()">Buy Tickets</button>
           </div>
         </div>
@@ -49,7 +41,7 @@
   <div class="wrapper">
     <div class="col">
       <div class="post">
-        <div class="ticket-form">
+        <div>
           <button class="reward" (click)="reclaimRewards()">Reward</button>
         </div>
       </div>
