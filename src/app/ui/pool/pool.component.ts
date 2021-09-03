@@ -64,9 +64,7 @@ export class PoolComponent implements OnInit {
     const numberOfRecord = await this.blockchainService.getNumberOfRecord();
     for (let i = 0; i < numberOfRecord; i++) {
       let record: Record = await this.blockchainService.records(String(i));
-      console.log('record.date:', record.date);
-      record.date = new Date(record.date);
-      console.log('record.date:', record.date);
+      record.id = String(i);
       this.records.push(record);
     }
   }

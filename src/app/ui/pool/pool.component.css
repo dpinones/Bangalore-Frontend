@@ -74,6 +74,7 @@
     border-color: #3A2F56;
     font-size: 30px;
 }
+
 .card-next-draw {
     color: #6A3ACD;
     background-color: #FFFFFF;
@@ -83,3 +84,39 @@
     padding: 25px 0;
 }
 
+table.blueTable {
+    border: none;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+  }
+  table.blueTable td, table.blueTable th {
+    border: none;
+    /* border: 1px solid #AAAAAA; */
+    padding: 3px 2px;
+  }
+  table.blueTable tbody td {
+    font-size: 13px;
+  }
+  table.blueTable thead {
+      border-bottom: 2px solid #4b4d4c;
+  }
+  table.blueTable thead th {
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+  }
+  table.blueTable thead th:first-child {
+    border-left: none;
+  }
+  
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
