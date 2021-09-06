@@ -1,7 +1,7 @@
 <ngx-spinner bdColor = "rgb(74,44,132)" size = "large" color = "#feca19" type = "ball-atom" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
 <div class="owner" *ngIf="owner">
-  <button class="buy-ticket" (click)="lookingForAWinner()">The winner is</button>
-  <button class="buy-ticket"(click)="reset()">Reset</button>
+  <button [disabled]="!paused" class="buy-ticket" (click)="lookingForAWinner()">The winner is</button>
+  <button [disabled]="!paused" class="buy-ticket"(click)="reset()">Reset</button>
 </div>
 
 <div *ngIf="!owner">
@@ -15,7 +15,7 @@
           </div>
           <h2>in prizes!</h2>
           <div>
-            <button class="buy-ticket" (click)="buyTickets()">Buy Tickets</button>
+            <button [disabled]="paused" class="buy-ticket" (click)="buyTickets()">Buy Tickets</button>
           </div>
         </div>
       </div>
@@ -26,16 +26,22 @@
     <div class="wrapper">
       <div class="col">
         <div class="post">
-          <h2 class="get-ticket">Get your tickets now!</h2>
-          <div class="card-next-draw">
-            <h2>Next Draw</h2>
-            <div class="col">
-              <h2>Prize pot</h2>
-              <h1>{{totalPool}} ETHER</h1>
-            </div>
-            <div>
-              <button class="buy-ticket" (click)="buyTickets()">Buy Tickets</button>
-            </div>
+          <h2 class="get-ticket">Tickets!</h2>
+          <div class="card-next-draw pane">
+            <table class="blueTable">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Amount tickets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr my-active *ngFor="let user of users; index as rowIndex">
+                  <td>{{user.user}}</td>
+                  <td>{{user.tickets}}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -47,7 +53,7 @@
       <div class="col">
         <div class="post">
           <div>
-            <button class="reward" (click)="reclaimRewards()">Reward</button>
+            <button [disabled]="paused" class="reward" (click)="reclaimRewards()">Reward</button>
           </div>
         </div>
       </div>
@@ -57,13 +63,14 @@
     <div class="wrapper">
       <div class="col">
         <div class="post">
-          <div class="card-next-draw">
+          <h2 class="get-ticket">History!</h2>
+          <div class="card-next-draw pane">
             <table class="blueTable">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Lottery ID</th>
                   <th>User</th>
-                  <th>Amount</th>
+                  <th>Reward</th>
                 </tr>
               </thead>
               <tbody>

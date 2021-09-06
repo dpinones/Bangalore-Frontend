@@ -1,0 +1,14 @@
+h1, h2 {
+    text-align: center;
+}
+
+.withdraw{
+    height: 35px;
+    width: 100%;
+    margin-top: 5px;
+    color: #FFFFFF;
+    background-color: #bb9901;
+    border-radius: 10px;
+    border-color: #3A2F56;
+    font-size: 20px;
+}

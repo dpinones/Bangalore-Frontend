@@ -1,10 +1,30 @@
+h1, h3 {
+    text-align: center;
+}
+
 .buy-ticket{
     height: 35px;
-    width: 200px;
-    margin-top: 70px;
+    width: 100%;
+    margin-top: 5px;
     color: #FFFFFF;
     background-color: #3c97ad;
     border-radius: 10px;
     border-color: #3A2F56;
     font-size: 20px;
+}
+
+mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #FFFFFF;
+}
+
+mat-form-field {
+    width: 90%;
+    display: inline;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }

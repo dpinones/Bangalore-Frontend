@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { BlockchainService } from 'src/app/services/blockchain/blockchain.service';
 
 @Component({
   selector: 'app-reward-modal',
@@ -8,9 +9,17 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 })
 export class RewardModalComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<RewardModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  reward!: number;
+
+  constructor(public dialogRef: MatDialogRef<RewardModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private blockchainService: BlockchainService) {
+    this.reward = data.reward;
+  }
 
   ngOnInit(): void {
+  }
+  
+  async withdraw(){
+    await this.blockchainService.harvest();
   }
 
 }

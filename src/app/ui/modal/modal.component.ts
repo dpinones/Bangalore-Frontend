@@ -22,7 +22,7 @@ export class ModalComponent implements OnInit {
     }
     
     async buyNow() {
-    await this.blockchainService.stake(this.cantidadTicketComprar, this.cantidadTicketComprar * this.ticketValue);
-  }
-
+      await this.blockchainService.stake(this.cantidadTicketComprar, this.cantidadTicketComprar * this.ticketValue);
+      this.dialogRef.close();
+    }
 }

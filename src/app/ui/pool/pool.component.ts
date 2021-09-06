@@ -27,6 +27,7 @@ export class PoolComponent implements OnInit{
 
   connect: boolean = false;
   owner: boolean = false;
+  paused: boolean = false;
   
   constructor(public dialog: MatDialog, private blockchainService: BlockchainService, private spinner: NgxSpinnerService) { }
 
@@ -60,7 +61,7 @@ export class PoolComponent implements OnInit{
       this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
       this.myTickets = await this.blockchainService.getTicketsForStaker();
       this.totalTickets = await this.blockchainService.getNumberOfTickets();
-      this.reward = await this.blockchainService.getReward();  
+      this.reward = await this.blockchainService.getReward();
       this.ticketValue = await this.blockchainService.ticketValue();
       this.getUsers();
       this.getRecords();
@@ -74,13 +75,21 @@ export class PoolComponent implements OnInit{
 
   async getUsers(){
     this.users = new Array<User>();
-    const stakers = await this.blockchainService.getStakers();
-    for (let i = 0; i < Number(this.numberOfStakers); i++) {
-      const cant = await this.blockchainService.ticketsForStaker(stakers[i]);
-      console.log(stakers[i]);
-      // console.log('cant:', cant.toNumber());
-      // this.users.push(new User(stakers[i], cant.toNumber()));
-    }
+    const stakers: string[] = await this.blockchainService.getStakers();
+    stakers.forEach(async staker => {
+      const cant = await this.blockchainService.ticketsForStaker(staker);
+      this.users.push(new User(staker, cant.toNumber()));
+    });
+    this.users.sort( (userA, userB) => {
+        if (userA.tickets < userB.tickets) {
+          return 1;
+        }
+        if (userA.tickets > userB.tickets) {
+            return -1;
+        }
+        return 0;
+      }
+    );
   }
 
   async getRecords(){
@@ -120,24 +129,25 @@ export class PoolComponent implements OnInit{
 
   buyTickets(){
     const dialogRef = this.dialog.open(ModalComponent, {
-      height: '400px',
+      height: '270px',
       width: '300px',
       data: {ticketValue: this.ticketValue}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      // this.init();
     });
   }
 
   reclaimRewards(){
     const dialogRef = this.dialog.open(RewardModalComponent, {
-      width: '250px',
-      data: {}
+      height: '200px',
+      width: '300px',
+      data: {reward: this.reward}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      // this.init();
     });
   }
 }

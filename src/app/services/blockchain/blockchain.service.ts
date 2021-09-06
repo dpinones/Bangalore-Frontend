@@ -85,8 +85,8 @@ export class BlockchainService {
       signer
     );
     bangaloreContract.connect(signer);
-    await bangaloreContract.stake(amount, { value: ethers.utils.parseEther(String(value)) });
-
+    const stakeTx = await bangaloreContract.stake(amount, { value: ethers.utils.parseEther(String(value)) });
+    console.log('stakeTx:', stakeTx);
   }
 
   async harvest(){
@@ -265,6 +265,8 @@ export class BlockchainService {
     return ret;
   }
 
+  // OWNER
+  
   async lookingForAWinner(){
     let bangaloreContract: Contract;
     var provider = new ethers.providers.Web3Provider(window.ethereum);
