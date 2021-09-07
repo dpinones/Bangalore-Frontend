@@ -2,6 +2,6 @@
 <mat-dialog-content>
     <h2>{{reward}} ETHER</h2>
     <div>
-        <button class="withdraw" (click)="withdraw()">Withdraw!</button>
+        <button [disabled]="!hasReward" class="withdraw" (click)="withdraw()">Withdraw!</button>
     </div>
 </mat-dialog-content>

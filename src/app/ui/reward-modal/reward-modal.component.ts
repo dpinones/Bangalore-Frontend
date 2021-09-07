@@ -10,16 +10,18 @@ import { BlockchainService } from 'src/app/services/blockchain/blockchain.servic
 export class RewardModalComponent implements OnInit {
 
   reward!: number;
+  hasReward: boolean;
 
   constructor(public dialogRef: MatDialogRef<RewardModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private blockchainService: BlockchainService) {
     this.reward = data.reward;
+    this.hasReward = this.reward > 0;
   }
 
   ngOnInit(): void {
   }
   
   async withdraw(){
-    await this.blockchainService.harvest();
+    await this.blockchainService.withdraw();
   }
 
 }

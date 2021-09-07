@@ -52,14 +52,14 @@ export class PoolComponent implements OnInit{
     this.spinner.show();
     this.user = await this.currectAccount();
     await this.isOwner();
-    
+    this.paused = await this.blockchainService.paused();
     if(this.owner){
       console.log("Is Owner");
     }else{
       this.balance = await this.blockchainService.getBalance(this.user);
       this.totalPool = await this.blockchainService.totalPool();
-      this.numberOfStakers = await this.blockchainService.getNumberOfStakers();
-      this.myTickets = await this.blockchainService.getTicketsForStaker();
+      this.numberOfStakers = await this.blockchainService.getNumberOfUsers();
+      this.myTickets = await this.blockchainService.getTicketsForUser();
       this.totalTickets = await this.blockchainService.getNumberOfTickets();
       this.reward = await this.blockchainService.getReward();
       this.ticketValue = await this.blockchainService.ticketValue();
@@ -75,9 +75,9 @@ export class PoolComponent implements OnInit{
 
   async getUsers(){
     this.users = new Array<User>();
-    const stakers: string[] = await this.blockchainService.getStakers();
+    const stakers: string[] = await this.blockchainService.getUsers();
     stakers.forEach(async staker => {
-      const cant = await this.blockchainService.ticketsForStaker(staker);
+      const cant = await this.blockchainService.ticketsForUser(staker);
       this.users.push(new User(staker, cant.toNumber()));
     });
     this.users.sort( (userA, userB) => {

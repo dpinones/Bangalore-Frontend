@@ -1,3 +1,3 @@
 export function getBangaloreAddress() {
-    return "0x9346ea8d0E5175F099B47cd2fc548d8DB40DBad3"
+    return "0x824eD0C80CF2913F15f41FEC3148E162E65C52e3"
 }

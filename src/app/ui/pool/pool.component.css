@@ -51,8 +51,13 @@
     background-color: #3f5486;
 }
 
-.get-ticket {
+.my-ticket {
     font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.get-ticket {
+    font-size: 30px;
 }
 
 .buy-ticket{
@@ -81,7 +86,7 @@
     background-color: #FFFFFF;
     border-radius: 20px;
     width: auto;
-    margin: 50px 150px 0px 150px;
+    margin: 20px 150px 0px 150px;
     padding: 5px 0;
 }
 
